@@ -13,7 +13,7 @@ chai.use(chaiHttp);
 describe('Intial Test', function(){
 	it('should return a 200', function(){
 		return chai.request(app)
-			.get('/index')
+			.get('/')
 			.then(function(_res){
 				res = _res;
 				res.should.have.status(200);
