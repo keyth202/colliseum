@@ -1,9 +1,4 @@
 language: node_js
 node_js: node
-deploy:
-  provider: heroku
-  api_key:
-    secure: tGrZARN1fVpyagB7JAvZId/T7WXxA7S4791fd9NwUXYN/nCo0RIwHKgcbPXXt5NIit8h6MJUUNBBi/xhiIXsEnE+4O4REsbiUNAOkpqbBE/g/sl/cCP2OiicmR065B0uJ6/5SRSceGYYFdDnIlvghfFYdS4y9MChOKEblKtL13M4C8R6V6SClL8XQAqRG5K4W0yop3bpczULdBpHFledyZpfWio/XXLTGXN73Bq55bcl72rBaT99N0x2qoq5LySrJ+F+oGsMg8Ty+F+mGoTvE/9pDBeFF9wwpnybp+u+rqQDvNLYRmgox17dQrKgBRCOLvF2KtKReIeQGTTWiHaW9Jt3KQWxyvIt1qMl/lKxTkzOkPnO4FV61jlc6e78rmEa0KgjkTaoFZdf9xhb1JbQmMcz2qYgs3oP/RspKafveeRdys05IwWCJf5g0ZkgtA6b3ZhbcXVUTygLLO7OAez9UKqn1o6Cp3sxPTNX60L/9VwQ3hBOceJFEff8mXBNcQ3Pmsrx1AZ0c2zt+llgVx2B1HtK6nARf3oyK4V/Ar1+VfdGs9d8iYKDLw0iKSAvg1nn5DbB/vBg9lI4VBxPxuHO1dy7l1dZi5IWJ3k+6SRNeyqj+e2NST4X0M5dZBm5wk2pYhy+siRdDHbFqy8dKP23jsUVxPjdqKYXJMMgDSSRB7k=
-  app: https://sleepy-forest-15311.herokuapp.com/ | https://git.heroku.com/sleepy-forest-15311.git
-  on:
-    repo: keyth202/colliseum
+services:
+- mongodb
