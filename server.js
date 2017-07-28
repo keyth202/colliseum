@@ -4,7 +4,7 @@ const morgan = require('morgan');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-const {PORT, DATABASE_URL} = require('./config');
+const {PORT, DATABASE_URL, TEST_DATABASE_URL} = require('./config');
 
 const app = express();
 
