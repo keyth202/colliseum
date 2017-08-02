@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const apiRoute = require('./routes/apiRoute');
 const authRoute = require('./routes/authRoute')
 
-const {PORT, DATABASE_URL, TEST_DATABASE_URL} = require('./config');
+const {PORT, DATABASE_URL} = require('./config');
 
 
 const app = express();
@@ -16,7 +16,7 @@ mongoose.Promise = global.Promise;
 app.use(express.static('public'));
 
 app.use('/api', apiRoute);
-app.use('/auth', authRoute)
+//app.use('/auth', authRoute)
 
 
 let server;

@@ -17,7 +17,7 @@ function seedUserData(){
 	const seedData =[];
 
 	for(let i=0; i<=10; i++){
-		seedData.push(generateBlogData());
+		seedData.push(generateUserData());
 	}
 	
 	return User.insertMany(seedData);
@@ -67,6 +67,7 @@ describe('Get tests', function(){
 		return runServer(DATABASE_URL);
 	});
 	beforeEach(function(){
+		//console.log(randomTeam());
 		return seedUserData();
 	});
 	afterEach(function(){
@@ -84,7 +85,11 @@ describe('Get tests', function(){
 				res.should.be.json;
 				res.body.should.be.a('array');
 				res.body.should.have.length.of.at.least(1);
+				//console.log(res.body);
+
+
 				res.body.forEach(function(users){
+					//console.log(users);
 					users.should.be.a('object');
 					users.should.include.keys('id','username','firstName','lastName','age', 'weight','team','totalPoints');
 				});
@@ -100,4 +105,42 @@ describe('Get tests', function(){
 				userOne.team.should.equal(users.team);
 			});
 	});
+
+	it('should return 1 users information', function(){
+		const knownUser = {
+			username: 'thatguy24',
+			firstName: 'Bobby',
+			lastName: 'Drake',
+			age: 24,
+			weight: 145,
+			team: randomTeam(),
+			totalPoints: 202
+		};
+
+		User.insertMany(knownUser);
+
+		return chai.request(app)
+			.get('/profile/thatguy24')
+			.then(function(res){
+				res.should.have.status(200);
+				res.should.be.json;
+				res.body.should.be.a('array');
+				res.body.should.have.length.of.at.least(1);
+
+				res.body.forEach(function(posts){
+					posts.should.be.a('object');
+					users.should.include.keys('id','username','firstName','lastName','age', 'weight','team','totalPoints');
+				});
+			})
+			.then(function(res){
+				res.body.username.should.equal(knownUser.username);
+				res.body.firstName.should.equal(knownUser.firstName);
+				res.body.lastName.should.equal(knownUser.lastName);
+				res.body.age.should.equal(knownUser.age);
+				res.body.weight.equal(knownUser.weight);
+				res.body.team.equal(knownUser.team);
+				res.body.totalPoints.equal(knownUser.totalPoints);
+			})
+
+	})
 });

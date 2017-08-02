@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema({
 	age:Number,
 	weight: Number,
 	team: {type: String, required: true},
-	totalPoints: {type: String, required: true},
+	totalPoints: {type: Number, required: true},
 	//workouts: [{ type: Schema.Types.ObjectId, ref: 'Workouts' }]
 
 });
@@ -21,6 +21,12 @@ const workoutSchema = new mongoose.Schema({
 	points: Number, 
 
 });
+
+const dietSchema = new mongoose.Schema({
+	//_creator : { type: Number, ref: 'User' },
+	meal: {type:String, required: true},
+	calories: Number
+})
 
 userSchema.methods.apiRepr = function(){
 	return{
