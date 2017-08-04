@@ -23,8 +23,9 @@ router.get('/profile', (req,res) => {
 });
 
 router.get('/profile/:username', (req,res)=>{
-	User.find(req.params.username).exec()
+	User.find({username: req.params.username}).exec()
 		.then(users =>{
+			console.log('Requested Username',req.params.username)
 			res.json(users.map(users => users.apiRepr()));
 		})
 	    .catch(err => {
@@ -32,6 +33,63 @@ router.get('/profile/:username', (req,res)=>{
 	      res.statys(500).json({message: 'Internal server error'});
 	    });
 })
+
+router.post('/', (req,res)=>{
+	const requiredFields =['username','team'];
+	for (let i=0; i<requiredFields.length; i++) {
+    	const field = requiredFields[i];
+   		 if (!(field in req.body)) {
+     		const message = `Missing \`${field}\` in request body`;
+     		console.error(message);
+      		return res.status(400).send(message);
+   		 }
+ 	}
+
+	User
+		.create({
+			username:req.body.username,
+			firstName:req.body.firstName,
+			lastName:req.body.lastName, 
+			age:req.body.age,
+			weight: req.body.weight,
+			team: req.body.team,
+			totalPoints: 0,
+			})
+		.then(users => res.status(201).json(users.apiRepr()))
+		.catch(err => {
+		    console.error(err);
+		    res.status(500).json({error:'Internal Server Error'});
+		});
+});
+
+router.put('/profile/:username', (req,res)=>{
+
+	const requiredFields = ['username','firstName','lastName','age', 'weight','team','totalPoints'];
+
+	const toUpdate ={}; 
+	
+	requiredFields.forEach(field =>{
+		if(field in req.body){
+			toUpdate[field] = req.body[field]
+		}
+	})
+
+	User.find({username: req.params.username, {$set:toUpdate}, {new:true})
+		.exec()
+		.then(updatedFields =>{
+			res.status(201).json(updatedFields.apiRepr());
+			
+		})
+    	.catch(err => {
+    		res.status(500).json({message: 'Internal server error'});
+    		console.error(err);
+    	});
+			
+});
+	
+
+
+
 
 
 module.exports = router;

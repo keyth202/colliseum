@@ -2,6 +2,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const faker = require('faker');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 const {app, runServer, closeServer} = require('../server');
 const {DATABASE_URL} = require('../config');
@@ -70,9 +71,9 @@ describe('Get tests', function(){
 		//console.log(randomTeam());
 		return seedUserData();
 	});
-	afterEach(function(){
+	/*afterEach(function(){
 		return tearDownDB();
-	});
+	});*/
 	after(function() {
     	return closeServer();
  	});
@@ -107,40 +108,50 @@ describe('Get tests', function(){
 	});
 
 	it('should return 1 users information', function(){
-		const knownUser = {
-			username: 'thatguy24',
-			firstName: 'Bobby',
-			lastName: 'Drake',
-			age: 24,
-			weight: 145,
-			team: randomTeam(),
-			totalPoints: 202
-		};
+		const knownUser = generateUserData();
+		
 
-		User.insertMany(knownUser);
+		User.create(knownUser)
+			.then(function(){
+				User.find({username: knownUser.username}).exec(function(err,resolve){
+					if(err){
+						console.log(err);
+					} else {
+						console.log('Resolve',resolve);
+					}
+				});
+				console.log('End Results');
+				//console.log(User.find().exec());
+			});
+
+		 
 
 		return chai.request(app)
-			.get('/profile/thatguy24')
+			.get(`/api/profile/${knownUser.username}`)
 			.then(function(res){
 				res.should.have.status(200);
 				res.should.be.json;
 				res.body.should.be.a('array');
 				res.body.should.have.length.of.at.least(1);
 
-				res.body.forEach(function(posts){
-					posts.should.be.a('object');
+				res.body.forEach(function(users){
+					users.should.be.a('object');
 					users.should.include.keys('id','username','firstName','lastName','age', 'weight','team','totalPoints');
 				});
+
+				return res.body[0]
 			})
 			.then(function(res){
-				res.body.username.should.equal(knownUser.username);
-				res.body.firstName.should.equal(knownUser.firstName);
-				res.body.lastName.should.equal(knownUser.lastName);
-				res.body.age.should.equal(knownUser.age);
-				res.body.weight.equal(knownUser.weight);
-				res.body.team.equal(knownUser.team);
-				res.body.totalPoints.equal(knownUser.totalPoints);
-			})
+				console.log("res", res.username);
+				console.log('fullres', res);
+				res.username.should.to.equal(knownUser.username);
+				res.firstName.should.to.equal(knownUser.firstName);
+				res.lastName.should.to.equal(knownUser.lastName);
+				res.age.should.to.equal(knownUser.age);
+				res.weight.should.be.equal(knownUser.weight);
+				res.team.should.be.equal(knownUser.team);
+				res.totalPoints.should.be.equal(knownUser.totalPoints);
+			}) 
 
 	})
 });
