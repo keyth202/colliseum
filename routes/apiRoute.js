@@ -62,10 +62,17 @@ router.post('/', (req,res)=>{
 		});
 });
 
-router.put('/profile/:username', (req,res)=>{
+router.put('/profile/:id', (req,res)=>{
 
 	const requiredFields = ['username','firstName','lastName','age', 'weight','team','totalPoints'];
 
+  if (req.params.id !== req.body.id) {
+    const message = (
+      `Request path id (${req.params.id}) and request body id ` +
+      `(${req.body.id}) must match`);
+    console.error(message);
+    return res.status(400).json({error:'Ids do not match'});
+  }
 	const toUpdate ={}; 
 	
 	requiredFields.forEach(field =>{
@@ -74,16 +81,12 @@ router.put('/profile/:username', (req,res)=>{
 		}
 	})
 
-	User.find({username: req.params.username, {$set:toUpdate}, {new:true})
-		.exec()
-		.then(updatedFields =>{
-			res.status(201).json(updatedFields.apiRepr());
-			
-		})
-    	.catch(err => {
-    		res.status(500).json({message: 'Internal server error'});
-    		console.error(err);
-    	});
+
+     User
+    	.findByIdAndUpdate(req.params.id, {$set:toUpdate}, {new:true})
+   		.exec()
+    	.then(updatedPost => res.status(201).json(updatedPost.apiRepr()))
+    	.catch(err => res.status(500).json({message: 'Internal server error'}));
 			
 });
 	

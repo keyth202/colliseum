@@ -151,7 +151,70 @@ describe('Get tests', function(){
 				res.weight.should.be.equal(knownUser.weight);
 				res.team.should.be.equal(knownUser.team);
 				res.totalPoints.should.be.equal(knownUser.totalPoints);
-			}) 
+			}); 
 
-	})
+	});
+
+	
+});
+
+describe('Put endpoint', function(){
+	it('should update fields', function(){
+		const knownUser = generateUserData();
+
+		const newdata ={
+			age:18,
+			weight:400,
+			teamName:'Athena'
+		}
+
+		User.create(knownUser)
+			.then(function(){
+				User.find({username: knownUser.username})
+					.exec(function(err,resolve){
+					if(err){
+						console.log(err);
+					} else {
+						console.log('Resolve',resolve);
+					}
+				});
+				console.log('End Results');
+				//console.log(User.find().exec());
+			})
+			
+
+		return User
+				.find({username:knownUser.username})
+				.exec()
+				.then(users => {
+
+				})
+
+		chai.request(app)
+			.put(`/api/profile/${knownUser.username}`)
+			.send({weight:4000})
+			.then(res =>{         
+				console.log(res.body);
+	          res.should.have.status(201);
+	          res.should.be.json;
+	          res.body.should.be.a('object');
+					          console.log(res.body);
+	          res.should.have.status(201);
+	          res.should.be.json;
+	          res.body.should.be.a('object');
+	          res.body.weight.should.equal(4000);
+
+	          return User.find({username:knownUser.username});
+
+			})
+			.then(users =>{
+				users.username.should.to.equal(knownUser.username);
+				users.firstName.should.to.equal(knownUser.firstName);
+				users.lastName.should.to.equal(knownUser.lastName);
+				users.age.should.to.equal(knownUser.age);
+				users.weight.should.not.be.equal(knownUser.weight);
+				users.team.should.be.equal(knownUser.team);
+				users.totalPoints.should.be.equal(knownUser.totalPoints);
+			});
+		});
 });
