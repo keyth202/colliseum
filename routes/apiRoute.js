@@ -85,6 +85,14 @@ router.put('/profile/:username/update', (req,res)=>{
 });
 	
 
+router.delete('/profile/:id', (req,res) =>{
+	User
+		.findByIdAndRemove(req.params.id)
+		.exec()
+		.then(users => res.status(204).json({message:'Profile Deleted'}))
+		.catch(err => res.status(500).json({message:'Internal Server Error'}))
+});
+
 
 
 
