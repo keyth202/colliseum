@@ -62,17 +62,18 @@ router.post('/', (req,res)=>{
 		});
 });
 
-router.put('/profile/:id', (req,res)=>{
+router.put('/profile/update/:id', (req,res)=>{
 
-	const requiredFields = ['username','firstName','lastName','age', 'weight','team','totalPoints'];
+	const requiredFields = ['id','username','firstName','lastName','age', 'weight','team','totalPoints'];
 
-  if (req.params.id !== req.body.id) {
-    const message = (
-      `Request path id (${req.params.id}) and request body id ` +
-      `(${req.body.id}) must match`);
-    console.error(message);
-    return res.status(400).json({error:'Ids do not match'});
-  }
+	if (req.params.id !== req.body.id) {
+	    const message = (
+	      `Request path id (${req.params.id}) and request body id ` +
+	      `(${req.body.id}) must match`);
+	    console.error(message);
+	    return res.status(400).json({error:'Ids do not match'});
+	 }
+	
 	const toUpdate ={}; 
 	
 	requiredFields.forEach(field =>{

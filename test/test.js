@@ -25,8 +25,8 @@ function seedUserData(){
 }
 
 function randomTeam(){
-	const teamName = ['Ares','Apollo','Athena'];
-	return teamName[Math.floor(Math.random()*2)];
+	const team = ['Ares','Apollo','Athena'];
+	return team[Math.floor(Math.random()*2)];
 }
 
 function generateUserData(){
@@ -142,8 +142,8 @@ describe('Get tests', function(){
 				return res.body[0]
 			})
 			.then(function(res){
-				console.log("res", res.username);
-				console.log('fullres', res);
+				console.log("res username", res.username);
+				//console.log('fullres', res);
 				res.username.should.to.equal(knownUser.username);
 				res.firstName.should.to.equal(knownUser.firstName);
 				res.lastName.should.to.equal(knownUser.lastName);
@@ -165,55 +165,46 @@ describe('Put endpoint', function(){
 		const newdata ={
 			age:18,
 			weight:400,
-			teamName:'Athena'
+			team:'Athena'
 		}
 
 		User.create(knownUser)
 			.then(function(){
-				User.find({username: knownUser.username})
-					.exec(function(err,resolve){
+				User.find({username: knownUser.username}).exec(function(err,resolve){
 					if(err){
 						console.log(err);
 					} else {
-						console.log('Resolve',resolve);
+						console.log('User Has been Found With Put Test');
 					}
 				});
-				console.log('End Results');
-				//console.log(User.find().exec());
-			})
+
+			});
 			
 
-		return User
-				.find({username:knownUser.username})
-				.exec()
-				.then(users => {
-
-				})
-
-		chai.request(app)
-			.put(`/api/profile/${knownUser.username}`)
-			.send({weight:4000})
+		return 	User.find({username:knownUser.username})
+			.exec()
+			.then( users =>{
+				knownUser.id = users.id;
+				return chai.request(app)
+					.put(`/api/profile/update/${users.id}`)
+					.send(newData)
+			})
 			.then(res =>{         
 				console.log(res.body);
 	          res.should.have.status(201);
 	          res.should.be.json;
 	          res.body.should.be.a('object');
-					          console.log(res.body);
-	          res.should.have.status(201);
-	          res.should.be.json;
-	          res.body.should.be.a('object');
-	          res.body.weight.should.equal(4000);
 
-	          return User.find({username:knownUser.username});
+	          return User.findById(res.body.id).exec();
 
 			})
 			.then(users =>{
 				users.username.should.to.equal(knownUser.username);
 				users.firstName.should.to.equal(knownUser.firstName);
 				users.lastName.should.to.equal(knownUser.lastName);
-				users.age.should.to.equal(knownUser.age);
-				users.weight.should.not.be.equal(knownUser.weight);
-				users.team.should.be.equal(knownUser.team);
+				users.age.should.to.equal(newData.age);
+				users.weight.should.not.be.equal(newData.weight);
+				users.team.should.be.equal(newData.team);
 				users.totalPoints.should.be.equal(knownUser.totalPoints);
 			});
 		});
