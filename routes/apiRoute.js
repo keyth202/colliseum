@@ -62,33 +62,26 @@ router.post('/', (req,res)=>{
 		});
 });
 
-router.put('/profile/update/:id', (req,res)=>{
+router.put('/profile/:username/update', (req,res)=>{
 
-	const requiredFields = ['id','username','firstName','lastName','age', 'weight','team','totalPoints'];
-
-	if (req.params.id !== req.body.id) {
-	    const message = (
-	      `Request path id (${req.params.id}) and request body id ` +
-	      `(${req.body.id}) must match`);
-	    console.error(message);
-	    return res.status(400).json({error:'Ids do not match'});
-	 }
+	const updateFields = ['firstName','lastName','age', 'weight','team'];
 	
-	const toUpdate ={}; 
+	const toUpdate = req.body; 
+	console.log(req.body);
 	
-	requiredFields.forEach(field =>{
+	/*updateFields.forEach(field =>{
 		if(field in req.body){
 			toUpdate[field] = req.body[field]
 		}
-	})
+	}); */
 
+	//console.log(toUpdate);
 
-     User
-    	.findByIdAndUpdate(req.params.id, {$set:toUpdate}, {new:true})
-   		.exec()
+	User.findOneAndUpdate(req.params.username,{$set:req.body}, {new:true})
+		.exec()
     	.then(updatedPost => res.status(201).json(updatedPost.apiRepr()))
     	.catch(err => res.status(500).json({message: 'Internal server error'}));
-			
+
 });
 	
 

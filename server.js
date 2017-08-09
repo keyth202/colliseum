@@ -13,7 +13,8 @@ const app = express();
 
 mongoose.Promise = global.Promise;
 
-app.use(express.static('public'));
+app.use(express.static('public'));;
+app.use(bodyParser.json());
 
 app.use('/api', apiRoute);
 //app.use('/auth', authRoute)

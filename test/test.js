@@ -181,12 +181,8 @@ describe('Put endpoint', function(){
 			});
 			
 
-		return 	User.find({username:knownUser.username})
-			.exec()
-			.then( users =>{
-				knownUser.id = users.id;
-				return chai.request(app)
-					.put(`/api/profile/update/${users.id}`)
+		return chai.request(app)
+					.put(`/api/profile/${knownUser.username}/update`)
 					.send(newData)
 			})
 			.then(res =>{         
@@ -207,5 +203,5 @@ describe('Put endpoint', function(){
 				users.team.should.be.equal(newData.team);
 				users.totalPoints.should.be.equal(knownUser.totalPoints);
 			});
-		});
 });
+
