@@ -69,15 +69,15 @@ router.put('/profile/:username/update', (req,res)=>{
 	const toUpdate = req.body; 
 	console.log(req.body);
 	
-	/*updateFields.forEach(field =>{
+	updateFields.forEach(field =>{
 		if(field in req.body){
 			toUpdate[field] = req.body[field]
 		}
-	}); */
+	}); 
 
-	//console.log(toUpdate);
+	console.log(toUpdate);
 
-	User.findOneAndUpdate(req.params.username,{$set:req.body}, {new:true})
+	User.findOneAndUpdate({username:req.params.username},{$set:toUpdate}, {new:true})
 		.exec()
     	.then(updatedPost => res.status(201).json(updatedPost.apiRepr()))
     	.catch(err => res.status(500).json({message: 'Internal server error'}));
