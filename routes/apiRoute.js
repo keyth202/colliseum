@@ -67,7 +67,7 @@ router.put('/profile/:username/update', (req,res)=>{
 	const updateFields = ['firstName','lastName','age', 'weight','team'];
 	
 	const toUpdate = req.body; 
-	console.log(req.body);
+	console.log('From the Route', req.body);
 	
 	updateFields.forEach(field =>{
 		if(field in req.body){
@@ -75,13 +75,13 @@ router.put('/profile/:username/update', (req,res)=>{
 		}
 	}); 
 
-	console.log(toUpdate);
+	//console.log(toUpdate);
 
 	User.findOneAndUpdate({username:req.params.username},{$set:toUpdate}, {new:true})
 		.exec()
     	.then(updatedPost => res.status(201).json(updatedPost.apiRepr()))
     	.catch(err => res.status(500).json({message: 'Internal server error'}));
-
+    console.log('End of the put function on apiroute', req.params.username);
 });
 	
 
