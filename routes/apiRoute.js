@@ -34,7 +34,7 @@ router.get('/profile/:username', (req,res)=>{
 	    });
 })
 
-router.post('/', (req,res)=>{
+router.post('/users', (req,res)=>{
 	const requiredFields =['username','team'];
 	for (let i=0; i<requiredFields.length; i++) {
     	const field = requiredFields[i];

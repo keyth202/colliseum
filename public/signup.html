@@ -17,10 +17,34 @@
 			 </ul>
 		</nav>
 
-
-
 	</header>
-
+	<section class="teams">
+		<h2>You may pick only one of these teams</h2>
+		<img src="/images/Apollo.png" class="greeks js-hidden">
+		<img src="/images/Aries.png" class="greeks js-hidden">
+		<img src="/images/Athena" class="greeks js-hidden">
+	</section>
+	<section class="signup">
+		<form id="signupform">
+			<h2>Prepare to enter the coliseum</h2>
+			<ul>
+				<li>Please enter your username<br><input type='text' name='username'></li>
+				<li> First Name<br><input type='text' name='firstName'></li>
+				<li> Last Name<br><input type='text' name='lastName'></li>
+				<li> Age<br><input type='text' name='age'></li>
+				<li> Weight<br><input type='text' name='weight'></li>
+				<li> Team<br><input type='text' name='team' class="js-hidden"></li>
+			</ul>
+		    <div  class="js-next">
+	    		<button type="button" class="nex buttons">Next</button>
+	    	</div> 
+		    <div>
+		        <button type="submit" class="submit-answer js-hidden buttons">
+		          <span class="button-label">Submit</span>
+		        </button>
+	    	</div>
+		</form>
+	</section>
 
 
 
@@ -28,7 +52,7 @@
 	  src="https://code.jquery.com/jquery-3.2.1.min.js"
 	  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
 	  crossorigin="anonymous"></script>
-	<script src="app.js"></script>
+	<script src="signup.js"></script>
 	   	<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDFRdKTGf1oXEk-8rUpl52b3xF79wbgQ6w&callback=" type="text/javascript"></script>
 </body>
 </html>

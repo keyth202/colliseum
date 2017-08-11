@@ -1,6 +1,9 @@
 * {
   box-sizing: border-box;
 }
+html{
+    background-image: url('\images\entrance.png');
+}
 
 header{
     width:100%;
@@ -51,4 +54,41 @@ section.features{
 }
 section.friends{
     background-color: gray;
+}
+.teams h2{
+    text-align: center;
+    display: inline-block;
+}
+.signup{
+    width: 400px;
+    height: 400px;
+    border: 2px black;
+    margin: 0 auto;
+    color: white;
+    font-style: italic;
+    font-size: 20px;
+    background: #778899;
+
+}
+.signup ul{
+    list-style: none;
+    text-align: center;
+}
+
+.signup h2{
+    text-align: center;
+}
+.buttons:hover{
+    background-color: blue;
+    color:white;
+   
+}
+.buttons{
+     margin:0 auto;
+}
+.js-hidden{
+   display:none; 
+}
+.hide{
+    display: none;
 }

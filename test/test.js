@@ -215,7 +215,7 @@ describe('This is the beginning of all the endpoint tests', function(){
 			const addUser = generateUserData(); 
 
 			return chai.request(app)
-				.post('/api/')
+				.post('/api/users')
 				.send(addUser)
 				.then(res =>{
 					res.should.have.status(201);
