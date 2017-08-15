@@ -32,6 +32,7 @@ function randomTeam(){
 function generateUserData(){
 	return {
 		username: faker.internet.userName(),
+		email:faker.internet.email(),
 		firstName: faker.name.firstName(),
 		lastName: faker.name.lastName(),
 		age: faker.random.number({min:16, max:99}),
@@ -95,7 +96,7 @@ describe('This is the beginning of all the endpoint tests', function(){
 					res.body.forEach(function(users){
 						//console.log(users);
 						users.should.be.a('object');
-						users.should.include.keys('id','username','firstName','lastName','age', 'weight','team','totalPoints');
+						users.should.include.keys('id','username','email','firstName','lastName','age', 'weight','team','totalPoints');
 					});
 
 					userOne = res.body[0];
@@ -139,7 +140,7 @@ describe('This is the beginning of all the endpoint tests', function(){
 
 					res.body.forEach(function(users){
 						users.should.be.a('object');
-						users.should.include.keys('id','username','firstName','lastName','age', 'weight','team','totalPoints');
+						users.should.include.keys('id','username','email','firstName','lastName','age', 'weight','team','totalPoints');
 					});
 
 					return res.body[0]

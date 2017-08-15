@@ -15,10 +15,15 @@ mongoose.Promise = global.Promise;
 
 app.use(express.static('public'));;
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:false}));
 
 app.use('/api', apiRoute);
 //app.use('/auth', authRoute)
 
+// Setting views folder up 
+
+app.set('views', path.join(__dirname,'views'));
+app.set('view engine', 'pug');
 
 let server;
 

@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
 	username:{type: String, required: true},
+	email:{type:String, required:true},
 	firstName:String,
 	lastName:String, 
 	age:Number,
@@ -32,6 +33,7 @@ userSchema.methods.apiRepr = function(){
 	return{
 		id:this._id,
 		username: this.username,
+		email:this.email,
 		firstName: this.firstName,
 		lastName: this.lastName,
 		age: this.age,

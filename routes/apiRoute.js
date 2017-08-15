@@ -15,6 +15,7 @@ router.get('/profile', (req,res) => {
 	User.find().exec()
 		.then(users => {
 			res.json( users.map( users => users.apiRepr()));
+			res.render('profile', {users});
 		})
 		.catch(err => {
         	console.error(err);
@@ -44,10 +45,11 @@ router.post('/users', (req,res)=>{
       		return res.status(400).send(message);
    		 }
  	}
-
+ 	console.log(req.body);
 	User
 		.create({
 			username:req.body.username,
+			email:req.body.email,
 			firstName:req.body.firstName,
 			lastName:req.body.lastName, 
 			age:req.body.age,
